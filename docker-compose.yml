@@ -1,0 +1,70 @@
+version: "3.8"
+
+services:
+  nginx-proxy:
+    image: nginxproxy/nginx-proxy:alpine
+    container_name: nginx-proxy
+    restart: always
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - /etc/nginx/certs:/etc/nginx/certs:ro
+      - /etc/nginx/vhost.d:/etc/nginx/vhost.d
+      - /usr/share/nginx/html:/usr/share/nginx/html
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+
+  wordpress:
+    image: buhzeebu/hlcc-group-pages:latest
+    restart: always
+    ports:
+      - "3005:80"
+    environment:
+      VIRTUAL_HOST: baolocmarket.vn
+      LETSENCRYPT_HOST: baolocmarket.vn
+      LETSENCRYPT_EMAIL: lienhe@hlcc.group
+      WORDPRESS_DB_HOST: db
+      WORDPRESS_DB_USER: root
+      WORDPRESS_DB_PASSWORD: Q8kqKMock0eWricc
+      WORDPRESS_DB_NAME: hlcc
+    depends_on:
+      - db
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    volumes:
+      - wordpress_data:/var/www/html
+
+  acme-companion:
+    image: nginxproxy/acme-companion
+    container_name: acme-companion
+    depends_on:
+      - nginx-proxy
+    restart: always
+    environment:
+      DEFAULT_EMAIL: lienhe@hlcc.group
+    volumes:
+      - /etc/nginx/certs:/etc/nginx/certs
+      - /etc/nginx/vhost.d:/etc/nginx/vhost.d
+      - /usr/share/nginx/html:/usr/share/nginx/html
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+
+  db:
+    image: mysql:5.7
+    restart: always
+    environment:
+      MYSQL_DATABASE: hlcc
+      MYSQL_ROOT_PASSWORD: Q8kqKMock0eWricc
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    volumes:
+      - db_data:/var/lib/mysql
+
+volumes:
+  wordpress_data:
+  db_data:
