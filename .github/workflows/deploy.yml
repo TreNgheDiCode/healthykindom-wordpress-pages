@@ -32,9 +32,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: List files
-        run: ls -al && ls -al wp-content
-
       - name: Copy docker-compose.yml to VPS
         uses: appleboy/scp-action@v0.1.7
         with:
@@ -52,6 +49,6 @@ jobs:
           key: ${{ secrets.VPS_KEY }}
           script: |
             cd ${{ secrets.DEPLOY_PATH }}
-            docker compose pull
-            docker compose down
-            docker compose up -d
+            docker-compose pull
+            docker-compose down
+            docker-compose up -d
