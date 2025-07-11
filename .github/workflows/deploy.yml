@@ -29,14 +29,20 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: List files
+        run: ls -al && ls -al wp-content
+
       - name: Copy docker-compose.yml to VPS
         uses: appleboy/scp-action@v0.1.7
         with:
           host: ${{ secrets.VPS_HOST }}
           username: ${{ secrets.VPS_USERNAME }}
           key: ${{ secrets.VPS_KEY }}
-          source: "docker-compose.yml"
-          target: "${{ secrets.DEPLOY_PATH }}"
+          source: "docker-compose.yml" # ✅ Make sure this matches actual path
+          target: ${{ secrets.DEPLOY_PATH }}
 
       - name: Deploy to VPS using SSH
         uses: appleboy/ssh-action@v1.0.3
