@@ -6,8 +6,8 @@ services:
     container_name: nginx-proxy
     restart: always
     ports:
-      - "80:80"
-      - "443:443"
+      - "8080:80"
+      - "8443:443"
     volumes:
       - /etc/nginx/certs:/etc/nginx/certs:ro
       - /etc/nginx/vhost.d:/etc/nginx/vhost.d
@@ -18,7 +18,8 @@ services:
     image: buhzeebu/hlcc-group-pages:latest
     restart: always
     ports:
-      - "3005:80"
+      - "8080:80"
+      - "8443:443"
     environment:
       VIRTUAL_HOST: baolocmarket.vn
       LETSENCRYPT_HOST: baolocmarket.vn
