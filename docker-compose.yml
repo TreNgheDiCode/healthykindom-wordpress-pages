@@ -17,9 +17,6 @@ services:
   wordpress:
     image: buhzeebu/hlcc-group-pages:latest
     restart: always
-    ports:
-      - "8080:80"
-      - "8443:443"
     environment:
       VIRTUAL_HOST: baolocmarket.vn
       LETSENCRYPT_HOST: baolocmarket.vn
