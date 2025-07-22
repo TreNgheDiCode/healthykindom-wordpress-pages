@@ -6,8 +6,8 @@ services:
     container_name: nginx-proxy
     restart: always
     ports:
-      - "8080:80"
-      - "8443:443"
+      - "8181:80"
+      - "9443:443"
     volumes:
       - /etc/nginx/certs:/etc/nginx/certs:ro
       - /etc/nginx/vhost.d:/etc/nginx/vhost.d
@@ -15,16 +15,16 @@ services:
       - /var/run/docker.sock:/tmp/docker.sock:ro
 
   wordpress:
-    image: buhzeebu/hlcc-group-pages:latest
+    image: buhzeebu/healthykingdom-pages:latest
     restart: always
     environment:
-      VIRTUAL_HOST: baolocmarket.vn
-      LETSENCRYPT_HOST: baolocmarket.vn
-      LETSENCRYPT_EMAIL: lienhe@hlcc.group
+      VIRTUAL_HOST: healthykingdom.acta.vn
+      LETSENCRYPT_HOST: healthykingdom.acta.vn
+      LETSENCRYPT_EMAIL: hlccgroup2025@gmail.com
       WORDPRESS_DB_HOST: db
       WORDPRESS_DB_USER: root
       WORDPRESS_DB_PASSWORD: Q8kqKMock0eWricc
-      WORDPRESS_DB_NAME: hlcc
+      WORDPRESS_DB_NAME: healthykingdom
     depends_on:
       - db
     healthcheck:
@@ -42,7 +42,7 @@ services:
       - nginx-proxy
     restart: always
     environment:
-      DEFAULT_EMAIL: lienhe@hlcc.group
+      DEFAULT_EMAIL: hlccgroup2025@gmail.com
     volumes:
       - /etc/nginx/certs:/etc/nginx/certs
       - /etc/nginx/vhost.d:/etc/nginx/vhost.d
@@ -53,7 +53,7 @@ services:
     image: mysql:5.7
     restart: always
     environment:
-      MYSQL_DATABASE: hlcc
+      MYSQL_DATABASE: healthykingdom
       MYSQL_ROOT_PASSWORD: Q8kqKMock0eWricc
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
