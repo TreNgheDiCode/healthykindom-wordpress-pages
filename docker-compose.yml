@@ -7,7 +7,7 @@ services:
     restart: always
     ports:
       - "8181:80"
-      - "9443:443"
+      - "8443:443"
     volumes:
       - /etc/nginx/certs:/etc/nginx/certs:ro
       - /etc/nginx/vhost.d:/etc/nginx/vhost.d
