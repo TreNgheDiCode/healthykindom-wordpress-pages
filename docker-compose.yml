@@ -37,7 +37,7 @@ services:
 
   acme-companion:
     image: nginxproxy/acme-companion
-    container_name: acme-companion
+    container_name: healthy-kingdom-acme-companion
     depends_on:
       - nginx-proxy
     restart: always
