@@ -34,7 +34,7 @@ services:
       retries: 3
     volumes:
       - wordpress_data:/var/www/html
-      - ./uploads.ini:/usr/local/etc/php/conf.d/uploads.ini # ✅ Mount PHP config
+      - ./uploads.ini:/usr/local/etc/php/conf.d/uploads.ini.ini # ✅ Mount PHP config
 
   acme-companion:
     image: nginxproxy/acme-companion
